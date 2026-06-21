@@ -1,28 +1,22 @@
 import os
 import feedparser
 import google.generativeai as genai
-import sys
 
-# 診断用コード
-print("--- 診断開始 ---")
+# APIキーの設定
 api_key = os.getenv("GEMINI_API_KEY")
-print(f"APIキーの取得状況: {'OK' if api_key else 'エラー！空です'}")
+genai.configure(api_key=api_key)
 
-try:
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-flash')
-    print("モデルの準備完了")
-    
-    rss_url = "https://yamachampion.com/feed"
-    feed = feedparser.parse(rss_url)
-    print(f"フィード取得完了: {len(feed.entries)} 件の記事が見つかりました")
-    
-    if len(feed.entries) > 0:
-        entry = feed.entries[0]
-        print(f"最新記事: {entry.title}")
-    
-    print("--- 診断終了 (成功) ---")
+# 最新のモデルを指定
+model = genai.GenerativeModel('gemini-2.0-flash')
 
-except Exception as e:
-    print(f"エラー発生: {e}")
-    sys.exit(1)
+# RSSからブログ記事を取得
+rss_url = "https://yamachampion.com/feed"
+feed = feedparser.parse(rss_url)
+
+if feed.entries:
+    entry = feed.entries[0]
+    prompt = f"以下のブログ記事の紹介文とハッシュタグ5つを作成して：\nタイトル: {entry.title}\nURL: {entry.link}"
+    response = model.generate_content(prompt)
+    print(response.text)
+else:
+    print("記事が見つかりませんでした")
