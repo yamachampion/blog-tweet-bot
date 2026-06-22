@@ -6,7 +6,7 @@ import google.generativeai as genai
 api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
-# 最新のモデルを指定
+# モデル指定を修正（最新の安定版を指定）
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 # RSSからブログ記事を取得
