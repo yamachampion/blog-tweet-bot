@@ -7,7 +7,7 @@ api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
 # 最新のモデルを指定
-model = genai.GenerativeModel('gemini-2.0-flash')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 # RSSからブログ記事を取得
 rss_url = "https://yamachampion.com/feed"
