@@ -2,7 +2,8 @@ name: Blog Tweet Bot
 
 on:
   schedule:
-    - cron: '0 9 * * *'
+    # 1日1回、深夜に実行（頻繁な実行を避ける）
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 jobs:
